@@ -164,10 +164,12 @@ Detaylar: {url}
 
 def mode_3_new_release_today():
     """
-    3) Bugün (veya son 1-2 gün) vizyona giren en popüler film
+    3) Yeni çıkan film (son 7 günden bir film, yoksa trend filme düşer)
     """
     today = date.today()
-    start = today - timedelta(days=2)
+    start = today - timedelta(days=7)  # 2 yerine 7 gün aldık
+
+    # Önce son 7 günde çıkan filmlerden en popüler olanı dene
     params = {
         "language": "tr-TR",
         "region": TMDB_DEFAULT_REGION,
@@ -178,9 +180,15 @@ def mode_3_new_release_today():
     }
     data = tmdb_get("/discover/movie", params)
     movie = pick_best_result(data.get("results", []), min_vote_count=1)
+
+    # Eğer hiç film bulamazsak, trending'e fallback
     if not movie:
-        print("Yeni film bulunamadı.")
-        return
+        print("Son 7 günde yeni film bulunamadı, trending'e düşüyorum.")
+        trend_data = tmdb_get("/trending/movie/day", {"language": "tr-TR"})
+        movie = pick_best_result(trend_data.get("results", []), min_vote_count=1)
+        if not movie:
+            print("Trending'de de film bulunamadı, tweet atlamayı tercih ettim.")
+            return
 
     title = movie["title"]
     date_str = movie.get("release_date", "")
@@ -188,13 +196,13 @@ def mode_3_new_release_today():
     overview = shorten(movie.get("overview", ""), 150)
     url = f"https://www.themoviedb.org/movie/{movie['id']}"
 
-    text = f"""🎟 Yeni çıkan film:
+    text = f"""🎟 Son günlerde vizyona gelen bir film:
 {title} ({date_str}) – ⭐ {vote:.1f}
 
 {overview}
 
 Detaylar: {url}
-#yeni #film #tmdb"""
+#yenifilm #filmönerisi #tmdb"""
     tweet(text)
 
 
@@ -470,6 +478,7 @@ Koleksiyona ekle: {url}
 def mode_17_hidden_gem():
     """
     17) Gizli mücevher: puanı yüksek ama çok da patlamamış film
+    Önce 7.0+ ve 100–2000 oy aralığına bakar, yoksa 7.0+ ve 50+ oya düşer.
     """
     base_params = {
         "language": "tr-TR",
@@ -479,18 +488,34 @@ def mode_17_hidden_gem():
         "vote_count.lte": 2000,
     }
     first = tmdb_get("/discover/movie", base_params)
+    results = first.get("results") or []
+
+    # Eğer bu aralıkta film bulamazsak, filtreyi gevşet
+    if not results:
+        print("Dar hidden gem filtresinde film bulunamadı, filtremi gevşetiyorum.")
+        relaxed_params = {
+            "language": "tr-TR",
+            "sort_by": "popularity.desc",
+            "vote_average.gte": 7.0,
+            "vote_count.gte": 50,
+        }
+        first = tmdb_get("/discover/movie", relaxed_params)
+        results = first.get("results") or []
+        base_params = relaxed_params  # sayfaları bu parametreyle gezeceğiz
+
+    if not results:
+        print("Hidden gem film hâlâ bulunamadı, tweet atlamayı tercih ettim.")
+        return
+
     total_pages = min(first.get("total_pages", 1), 30)
     random_page = random.randint(1, max(total_pages, 1))
     params = dict(base_params)
     params["page"] = random_page
     data = tmdb_get("/discover/movie", params)
 
-    results = data.get("results") or first.get("results") or []
-    if not results:
-        print("Hidden gem film bulunamadı.")
-        return
+    all_results = data.get("results") or results
+    movie = random.choice(all_results)
 
-    movie = random.choice(results)
     title = movie["title"]
     year = movie.get("release_date", "")[:4]
     vote = movie.get("vote_average", 0.0)
