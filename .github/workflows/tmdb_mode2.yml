@@ -3,7 +3,7 @@ name: TMDB Mode 2 - World Popular Movie
 on:
   workflow_dispatch:  # elle çalıştırmak için
   schedule:
-    - cron: '0 12 * * *'  # Her gün 12:00 UTC (TR 15:00)
+    - cron: '0 10 * * *'  # Her gün 12:00 UTC (TR 15:00)
 
 jobs:
   run-bot:
