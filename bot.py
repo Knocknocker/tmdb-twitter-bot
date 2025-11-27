@@ -76,25 +76,14 @@ def build_poster_url(poster_path):
 
 def tweet(text):
     """
-    Tweet atar, tweet çok uzunsa overview kısmını kısaltır ama URL'yi ASLA kesmez.
+    Tek metin tweet atar.
+    Tweet çok uzunsa 270 karaktere kırpar.
+    Duplicate veya diğer 403 hatalarında workflow'u patlatmaz.
     """
-    max_len = 280
+    max_len = 270
 
-    # Eğer metin çok uzunsa URL'yi koruyarak kısalt
     if len(text) > max_len:
-        parts = text.split("\n")
-        url_line = parts[-2]  # "Detaylar: URL" olan satır
-        overview_lines = parts[2:-2]
-
-        # Overview'ı tek satıra sıkıştır
-        overview = " ".join(overview_lines)
-        allowed_len = max_len - len(url_line) - 15
-
-        if len(overview) > allowed_len:
-            overview = overview[:allowed_len] + "..."
-
-        # Tweeti yeniden oluştur
-        text = f"{parts[0]}\n{parts[1]}\n\n{overview}\n\n{url_line}\n{parts[-1]}"
+        text = text[:max_len - 3] + "..."
 
     client = tweepy.Client(
         bearer_token=X_BEARER_TOKEN,
@@ -103,7 +92,6 @@ def tweet(text):
         access_token=X_ACCESS_TOKEN,
         access_token_secret=X_ACCESS_SECRET,
     )
-
     try:
         resp = client.create_tweet(text=text)
         print("Tweet gönderildi:", resp)
@@ -212,7 +200,7 @@ def mode_3_new_release_today():
     title = movie["title"]
     date_str = movie.get("release_date", "")
     vote = movie.get("vote_average", 0.0)
-    overview = shorten(movie.get("overview", ""), 150)
+    overview = shorten(movie.get("overview", ""), 90)
     url = f"https://www.themoviedb.org/movie/{movie['id']}"
 
     text = f"""🎟 Son günlerde vizyona gelen bir film:
