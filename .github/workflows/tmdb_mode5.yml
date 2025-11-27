@@ -3,7 +3,7 @@ name: TMDB Mode 5 - Random Quality Movie
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 18 * * *'  # Her gün 18:00 UTC (TR 21:00)
+    - cron: '0 16 * * *'  # Her gün 18:00 UTC (TR 21:00)
 
 jobs:
   run-bot:
