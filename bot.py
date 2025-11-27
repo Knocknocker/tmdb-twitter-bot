@@ -157,7 +157,7 @@ def mode_2_world_popular_today():
     year = movie.get("release_date", "")[:4]
     vote = movie.get("vote_average", 0.0)
     overview = shorten(movie.get("overview", ""), 150)
-    url = f"https://www.themoviedb.org/movie/{movie['id']}"
+    url = f"https://tmdb.org/movie/{movie['id']}"
 
     text = f"""🌍 Bugün dünyada en popüler film:
 {title} ({year}) – ⭐ {vote:.1f}
@@ -202,7 +202,7 @@ def mode_3_new_release_today():
     date_str = movie.get("release_date", "")
     vote = movie.get("vote_average", 0.0)
     overview = shorten(movie.get("overview", ""), 150)
-    url = f"https://www.themoviedb.org/movie/{movie['id']}"
+    url = f"https://tmdb.org/movie/{movie['id']}"
 
     text = f"""🎟 Son günlerde vizyona gelen bir film:
 {title} ({date_str}) – ⭐ {vote:.1f}
@@ -238,7 +238,7 @@ def mode_4_week_top_rated():
     year = movie.get("release_date", "")[:4]
     vote = movie.get("vote_average", 0.0)
     overview = shorten(movie.get("overview", ""), 150)
-    url = f"https://www.themoviedb.org/movie/{movie['id']}"
+    url = f"https://tmdb.org/movie/{movie['id']}"
 
     text = f"""📈 Haftanın en yüksek puanlı yeni filmi:
 {title} ({year}) – ⭐ {vote:.1f}
@@ -277,7 +277,7 @@ def mode_5_random_quality():
     year = movie.get("release_date", "")[:4]
     vote = movie.get("vote_average", 0.0)
     overview = shorten(movie.get("overview", ""), 160)
-    url = f"https://www.themoviedb.org/movie/{movie['id']}"
+    url = f"https://tmdb.org/movie/{movie['id']}"
 
     text = f"""🎲 Bugünün rastgele kaliteli filmi:
 {title} ({year}) – ⭐ {vote:.1f}
@@ -312,7 +312,7 @@ def mode_8_netflix_tr_popular():
     year = movie.get("release_date", "")[:4]
     vote = movie.get("vote_average", 0.0)
     overview = shorten(movie.get("overview", ""), 150)
-    url = f"https://www.themoviedb.org/movie/{movie['id']}"
+    url = f"https://tmdb.org/movie/{movie['id']}"
 
     text = f"""📺 Türkiye'de Netflix'te en popüler film:
 {title} ({year}) – ⭐ {vote:.1f}
@@ -349,7 +349,7 @@ def mode_10_box_office_like():
     year = movie.get("release_date", "")[:4]
     vote = movie.get("vote_average", 0.0)
     overview = shorten(movie.get("overview", ""), 150)
-    url = f"https://www.themoviedb.org/movie/{movie['id']}"
+    url = f"https://tmdb.org/movie/{movie['id']}"
 
     text = f"""💰 Son haftaların gişe şampiyonu kıvamında film:
 {title} ({year}) – ⭐ {vote:.1f}
@@ -375,7 +375,7 @@ def mode_13_trending_riser():
     year = movie.get("release_date", "")[:4]
     vote = movie.get("vote_average", 0.0)
     overview = shorten(movie.get("overview", ""), 150)
-    url = f"https://www.themoviedb.org/movie/{movie['id']}"
+    url = f"https://tmdb.org/movie/{movie['id']}"
 
     text = f"""🚀 Son 24 saatte trend olan film:
 {title} ({year}) – ⭐ {vote:.1f}
@@ -401,7 +401,7 @@ def mode_14_best_poster():
     title = movie["title"]
     year = movie.get("release_date", "")[:4]
     poster_url = build_poster_url(movie["poster_path"])
-    url = f"https://www.themoviedb.org/movie/{movie['id']}"
+    url = f"https://tmdb.org/movie/{movie['id']}"
 
     text = f"""🖼 Bugünün poster seçimi:
 {title} ({year})
@@ -432,7 +432,7 @@ def mode_15_turkish_movies_popular():
     year = movie.get("release_date", "")[:4]
     vote = movie.get("vote_average", 0.0)
     overview = shorten(movie.get("overview", ""), 150)
-    url = f"https://www.themoviedb.org/movie/{movie['id']}"
+    url = f"https://tmdb.org/movie/{movie['id']}"
 
     text = f"""🇹🇷 Bugün en popüler Türk filmi:
 {title} ({year}) – ⭐ {vote:.1f}
@@ -471,7 +471,7 @@ def mode_16_classic_of_day():
     year = movie.get("release_date", "")[:4]
     vote = movie.get("vote_average", 0.0)
     overview = shorten(movie.get("overview", ""), 160)
-    url = f"https://www.themoviedb.org/movie/{movie['id']}"
+    url = f"https://tmdb.org/movie/{movie['id']}"
 
     text = f"""🎞 Bugünün klasik filmi:
 {title} ({year}) – ⭐ {vote:.1f}
@@ -528,7 +528,7 @@ def mode_17_hidden_gem():
     year = movie.get("release_date", "")[:4]
     vote = movie.get("vote_average", 0.0)
     overview = shorten(movie.get("overview", ""), 160)
-    url = f"https://www.themoviedb.org/movie/{movie['id']}"
+    url = f"https://tmdb.org/movie/{movie['id']}"
 
     text = f"""💎 Bugünün gizli mücevher filmi:
 {title} ({year}) – ⭐ {vote:.1f}
