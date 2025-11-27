@@ -236,13 +236,13 @@ Detay: {url}
 
 def mode_5_random_quality():
     """
-    5) Rastgele ama kaliteli bir film (vote_average >= 7.5, vote_count >= 500)
+    5) Rastgele ama kaliteli bir film (tweet Türkçe)
     """
     base_params = {
-        "language": "en-US",
+        "language": "tr-TR",
         "sort_by": "popularity.desc",
         "vote_average.gte": 7.5,
-        "vote_count.gte": 500,
+        "vote_count.gte": 300,
     }
     first = tmdb_get("/discover/movie", base_params)
     total_pages = min(first.get("total_pages", 1), 50)
@@ -251,14 +251,12 @@ def mode_5_random_quality():
     params["page"] = random_page
     data = tmdb_get("/discover/movie", params)
 
-    if not data.get("results"):
-        data = first
-
-    movie = random.choice(data.get("results", []))
-    if not movie:
-        print("Film bulunamadı.")
+    results = data.get("results") or first.get("results") or []
+    if not results:
+        print("Rastgele kaliteli film bulunamadı.")
         return
 
+    movie = random.choice(results)
     title = movie["title"]
     year = movie.get("release_date", "")[:4]
     vote = movie.get("vote_average", 0.0)
@@ -273,6 +271,7 @@ def mode_5_random_quality():
 Listeye ekle: {url}
 #filmönerisi #random #tmdb"""
     tweet(text)
+
 
 
 def mode_8_netflix_tr_popular():
