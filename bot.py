@@ -134,11 +134,11 @@ Daha fazla: {url}
 
 def mode_2_world_popular_today():
     """
-    2) Dünyada bugün en popüler film
+    2) Dünyada bugün en popüler film (tweet Türkçe)
     """
     data = tmdb_get(
         "/movie/popular",
-        {"language": "en-US", "page": 1},
+        {"language": "tr-TR", "page": 1},
     )
     movie = pick_best_result(data.get("results", []))
     if not movie:
@@ -151,14 +151,15 @@ def mode_2_world_popular_today():
     overview = shorten(movie.get("overview", ""), 150)
     url = f"https://www.themoviedb.org/movie/{movie['id']}"
 
-    text = f"""🌍 Today’s most popular movie worldwide:
+    text = f"""🌍 Bugün dünyada en popüler film:
 {title} ({year}) – ⭐ {vote:.1f}
 
 {overview}
 
-More: {url}
-#movies #cinema #tmdb"""
+Detaylar: {url}
+#film #sinema #tmdb"""
     tweet(text)
+
 
 
 def mode_3_new_release_today():
