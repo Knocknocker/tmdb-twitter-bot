@@ -77,8 +77,16 @@ def build_poster_url(poster_path):
 def tweet(text):
     """
     Tek metin tweet atar.
-    Duplicate (aynı) tweette veya başka 403 hatasında workflow'u patlatmaz.
+    Tweet çok uzunsa 280 karaktere otomatik kısaltır.
+    Duplicate veya diğer 403 hatalarında workflow'u patlatmaz.
     """
+    # Tweet uzunluğu sınırı
+    max_len = 270  # 280 değil, biraz boşluk bırakıyoruz
+
+    # Eğer tweet çok uzunsa kısalt
+    if len(text) > max_len:
+        text = text[:max_len - 3] + "..."
+
     client = tweepy.Client(
         bearer_token=X_BEARER_TOKEN,
         consumer_key=X_API_KEY,
@@ -92,11 +100,11 @@ def tweet(text):
     except tweepy.errors.Forbidden as e:
         msg = str(e).lower()
         if "duplicate" in msg:
-            print("Aynı içerikten zaten tweet atılmış, yenisini atlamayı tercih ettim.")
+            print("Aynı içerikten zaten tweet atılmış, atlıyorum.")
         else:
-            print("403 Forbidden - Twitter bu tweet'e izin vermedi, atlamayı tercih ettim.")
+            print("403 Forbidden - Twitter bu tweet'e izin vermedi, atlıyorum.")
             print("Hata detayı:", e)
-        # raise etmiyoruz, sessizce geçiyoruz
+
 
 
 
