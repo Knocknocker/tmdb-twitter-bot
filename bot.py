@@ -77,7 +77,7 @@ def build_poster_url(poster_path):
 def tweet(text):
     """
     Tek metin tweet atar.
-    Duplicate (aynı) tweet hatasında programı patlatmaz.
+    Duplicate (aynı) tweette veya başka 403 hatasında workflow'u patlatmaz.
     """
     client = tweepy.Client(
         bearer_token=X_BEARER_TOKEN,
@@ -90,13 +90,14 @@ def tweet(text):
         resp = client.create_tweet(text=text)
         print("Tweet gönderildi:", resp)
     except tweepy.errors.Forbidden as e:
-        # Twitter aynı tweet'i tekrar atmana izin vermediğinde buraya düşer
         msg = str(e).lower()
         if "duplicate" in msg:
             print("Aynı içerikten zaten tweet atılmış, yenisini atlamayı tercih ettim.")
         else:
-            # Başka bir 403 sebebi varsa hatayı yine fırlat
-            raise
+            print("403 Forbidden - Twitter bu tweet'e izin vermedi, atlamayı tercih ettim.")
+            print("Hata detayı:", e)
+        # raise etmiyoruz, sessizce geçiyoruz
+
 
 
 
