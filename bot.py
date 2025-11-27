@@ -470,11 +470,10 @@ Koleksiyona ekle: {url}
 
 def mode_17_hidden_gem():
     """
-    17) Gizli mücevher: puanı yüksek ama oy sayısı orta segment bir film
-    vote_average >= 7.0, 100 <= vote_count <= 2000
+    17) Gizli mücevher: puanı yüksek ama çok da patlamamış film
     """
     base_params = {
-        "language": "en-US",
+        "language": "tr-TR",
         "sort_by": "popularity.desc",
         "vote_average.gte": 7.0,
         "vote_count.gte": 100,
@@ -505,8 +504,9 @@ def mode_17_hidden_gem():
 {overview}
 
 Keşfet: {url}
-#hiddenGem #film #tmdb"""
+#gizlifilm #filmönerisi #tmdb"""
     tweet(text)
+
 
 
 MODES = {
