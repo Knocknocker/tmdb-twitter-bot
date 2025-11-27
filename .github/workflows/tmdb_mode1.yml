@@ -3,7 +3,7 @@ name: TMDB Mode 1 - Turkey Popular Movie
 on:
   workflow_dispatch:  # elle çalıştırmak için
   schedule:
-    - cron: '0 9 * * *'  # Her gün 09:00 UTC (Türkiye'de 12:00)
+    - cron: '0 7 * * *'  # Her gün 09:00 UTC (Türkiye'de 12:00)
 
 jobs:
   run-bot:
