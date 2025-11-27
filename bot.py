@@ -126,7 +126,7 @@ def mode_1_turkey_popular_today():
     title = movie["title"]
     year = movie.get("release_date", "")[:4]
     vote = movie.get("vote_average", 0.0)
-    overview = shorten(movie.get("overview", ""), 150)
+    overview = shorten(movie.get("overview", ""), 90)
     url = f"https://www.themoviedb.org/movie/{movie['id']}"
 
     text = f"""🎬 Bugün Türkiye'de en popüler film:
@@ -155,7 +155,7 @@ def mode_2_world_popular_today():
     title = movie["title"]
     year = movie.get("release_date", "")[:4]
     vote = movie.get("vote_average", 0.0)
-    overview = shorten(movie.get("overview", ""), 150)
+    overview = shorten(movie.get("overview", ""), 90)
     url = f"https://www.themoviedb.org/movie/{movie['id']}"
 
     text = f"""🌍 Bugün dünyada en popüler film:
