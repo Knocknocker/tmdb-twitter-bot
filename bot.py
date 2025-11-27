@@ -76,16 +76,25 @@ def build_poster_url(poster_path):
 
 def tweet(text):
     """
-    Tek metin tweet atar.
-    Tweet çok uzunsa 280 karaktere otomatik kısaltır.
-    Duplicate veya diğer 403 hatalarında workflow'u patlatmaz.
+    Tweet atar, tweet çok uzunsa overview kısmını kısaltır ama URL'yi ASLA kesmez.
     """
-    # Tweet uzunluğu sınırı
-    max_len = 270  # 280 değil, biraz boşluk bırakıyoruz
+    max_len = 280
 
-    # Eğer tweet çok uzunsa kısalt
+    # Eğer metin çok uzunsa URL'yi koruyarak kısalt
     if len(text) > max_len:
-        text = text[:max_len - 3] + "..."
+        parts = text.split("\n")
+        url_line = parts[-2]  # "Detaylar: URL" olan satır
+        overview_lines = parts[2:-2]
+
+        # Overview'ı tek satıra sıkıştır
+        overview = " ".join(overview_lines)
+        allowed_len = max_len - len(url_line) - 15
+
+        if len(overview) > allowed_len:
+            overview = overview[:allowed_len] + "..."
+
+        # Tweeti yeniden oluştur
+        text = f"{parts[0]}\n{parts[1]}\n\n{overview}\n\n{url_line}\n{parts[-1]}"
 
     client = tweepy.Client(
         bearer_token=X_BEARER_TOKEN,
@@ -94,6 +103,7 @@ def tweet(text):
         access_token=X_ACCESS_TOKEN,
         access_token_secret=X_ACCESS_SECRET,
     )
+
     try:
         resp = client.create_tweet(text=text)
         print("Tweet gönderildi:", resp)
@@ -104,6 +114,7 @@ def tweet(text):
         else:
             print("403 Forbidden - Twitter bu tweet'e izin vermedi, atlıyorum.")
             print("Hata detayı:", e)
+
 
 
 
