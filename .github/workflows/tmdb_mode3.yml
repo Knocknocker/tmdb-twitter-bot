@@ -3,7 +3,7 @@ name: TMDB Mode 3 - New Release Today
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 15 * * *'  # Her gün 15:00 UTC (TR 18:00)
+    - cron: '0 13 * * *'  # Her gün 15:00 UTC (TR 18:00)
 
 jobs:
   run-bot:
